@@ -1,0 +1,10 @@
+{
+  "HomePage": {
+    "title": "Welcome to <expresspark>ExpressPark</expresspark>",
+    "description": "Navigate campus seamlessly with intelligent parking guidance and real-time slot availability. Built for <italic>SRMIST</italic>",
+    "buttons": {
+      "reserve": "Reserve Slot",
+      "traffic": "View Traffic"
+    }
+  }
+}
