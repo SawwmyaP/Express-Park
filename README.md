@@ -26,31 +26,6 @@
 - **Backend & Database:** Supabase (PostgreSQL)
 - **Icons:** Lucide React
 
-## 🚀 Getting Started
-
-### Prerequisites
-Make sure you have [Node.js](https://nodejs.org/) (v18+) and npm installed.
-
-### Installation
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/SawwmyaP/Express-Park.git
-   cd Express-Park
-   ```
-
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-
-3. **Run the development server:**
-   ```bash
-   npm run dev
-   ```
-
-4. **Experience the OS:**
-   Open [http://localhost:3000](http://localhost:3000) with your browser.
 
 ## 🔐 Testing Authentication
 
