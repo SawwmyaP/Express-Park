@@ -67,4 +67,4 @@ ExpressPark rigidly adheres to a **"Spatial, Calm, Editorial"** design language:
 - **Micro-interactions:** Every state change (from uploading a timetable to generating a QR code) is smoothed over with physics-based Framer Motion springs.
 
 ---
-*Built for the future of campus mobility.*
+*Built for the future of campus mobility by [Soumya Pathak](https://github.com/SawwmyaP).*
