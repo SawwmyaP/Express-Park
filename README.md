@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ExpressPark 🏎️
 
-## Getting Started
+![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v4-38B2AC?style=for-the-badge&logo=tailwind-css)
+![Supabase](https://img.shields.io/badge/Supabase-Database-3ECF8E?style=for-the-badge&logo=supabase)
+![Framer Motion](https://img.shields.io/badge/Framer_Motion-UI-0055FF?style=for-the-badge&logo=framer)
 
-First, run the development server:
+**ExpressPark** is a next-generation "Mobility Operating System" custom-built for the SRM KTR Campus. It transcends generic parking dashboards by offering a deeply spatial, calm, and intelligent UI designed to orchestrate the flow of thousands of vehicles daily.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ✨ Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Spatial Campus Mapping:** Powered by `react-leaflet` and Carto, featuring full GeoJSON coordinate integration of the SRM KTR Campus (Tech Park, UB, Main Gates).
+- **Intelligent Routing:** Dynamically plots optimal paths between entry gates and parking zones with estimated time and distance metrics.
+- **Digital Garage & Multi-Step Booking:** An interactive wizard for students and faculty to register vehicles and generate encrypted QR Gate Passes.
+- **Security Command Center (RBAC):** Role-based access unlocks the `/workspace` for campus security—featuring a Live Traffic Stream and a Global Reservations Ledger.
+- **YOLO Vision Integration (Prep):** Architecture designed to intake hardware flags from YOLO cameras to highlight "Messy Vehicles" parsing incorrect parking alignments.
+- **Timetable OCR Surge Prediction:** Endpoints utilizing `tesseract.js` to parse student timetables and preemptively warn them about high-traffic surge hours based on their class schedules.
+- **Seamless i18n:** Built-in localization supporting English (EN), Tamil (TA), and Hindi (HI) utilizing `next-intl`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Technology Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Framework:** Next.js 15 (App Router, Turbopack)
+- **Styling:** Tailwind CSS v4 (with bespoke OKLCH Deep Charcoal theming)
+- **Animations:** Framer Motion
+- **Map Engine:** React Leaflet + GeoJSON
+- **Backend & Database:** Supabase (PostgreSQL)
+- **Icons:** Lucide React
 
-## Learn More
+## 🚀 Getting Started
 
-To learn more about Next.js, take a look at the following resources:
+### Prerequisites
+Make sure you have [Node.js](https://nodejs.org/) (v18+) and npm installed.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Installation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/SawwmyaP/Express-Park.git
+   cd Express-Park
+   ```
 
-## Deploy on Vercel
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4. **Experience the OS:**
+   Open [http://localhost:3000](http://localhost:3000) with your browser.
+
+## 🔐 Testing Authentication
+
+The application currently uses a high-fidelity Mock Authentication Context for seamless UI testing.
+
+- **Test as a Student:** Log in with any email ending in `@srmist.edu.in` (e.g., `student@srmist.edu.in`). You will have access to the Garage and Vehicle Booking workflow.
+- **Test as Security/Admin:** Log in with an email containing the word `admin` or `security` (e.g., `admin@srmist.edu.in`). This unlocks the exclusive **Workspace** module in the navigation dock.
+
+## 🎨 Design Philosophy
+
+ExpressPark rigidly adheres to a **"Spatial, Calm, Editorial"** design language:
+- **No visual clutter:** We abandoned aggressive gradients and generic card grids.
+- **Deep Charcoal Theming:** The interface sits atop a massive, dark Carto map, utilizing frosted glass panels and subtle emerald accents for live data.
+- **Micro-interactions:** Every state change (from uploading a timetable to generating a QR code) is smoothed over with physics-based Framer Motion springs.
+
+---
+*Built for the future of campus mobility.*
