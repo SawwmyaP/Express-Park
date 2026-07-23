@@ -26,14 +26,6 @@
 - **Backend & Database:** Supabase (PostgreSQL)
 - **Icons:** Lucide React
 
-
-## 🔐 Testing Authentication
-
-The application currently uses a high-fidelity Mock Authentication Context for seamless UI testing.
-
-- **Test as a Student:** Log in with any email ending in `@srmist.edu.in` (e.g., `student@srmist.edu.in`). You will have access to the Garage and Vehicle Booking workflow.
-- **Test as Security/Admin:** Log in with an email containing the word `admin` or `security` (e.g., `admin@srmist.edu.in`). This unlocks the exclusive **Workspace** module in the navigation dock.
-
 ## 🎨 Design Philosophy
 
 ExpressPark rigidly adheres to a **"Spatial, Calm, Editorial"** design language:
