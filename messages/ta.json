@@ -107,10 +107,21 @@
   "AuthPage": {
     "title": "மீண்டும் வருக",
     "subtitle": "உங்கள் SRM நற்சான்றிதழ்களுடன் உள்நுழைக",
-    "emailPlaceholder": "மின்னஞ்சல் முகவரி (@srmist.edu.in)",
+    "emailPlaceholder": "name@srmist.edu.in",
     "passwordPlaceholder": "கடவுச்சொல்",
-    "authenticateBtn": "அங்கீகரி",
-    "mockAdmin": "போலி நிர்வாகி: admin@srmist.edu.in",
-    "mockStudent": "போலி மாணவர்: user@srmist.edu.in"
+    "authenticateBtn": "உள்நுழைய",
+    "invalidEmailDomain": "சரியான SRMIST மின்னஞ்சல் முகவரியைப் பயன்படுத்தவும்.",
+    "invalidCredentials": "தவறான மின்னஞ்சல் அல்லது கடவுச்சொல்.",
+    "userExists": "பயனர் ஏற்கனவே உள்ளார். தயவுசெய்து உள்நுழையவும்.",
+    "signUpTitle": "கணக்கை உருவாக்கவும்",
+    "signUpSubtitle": "உங்கள் SRMIST மின்னஞ்சலுடன் எக்ஸ்பிரஸ் பார்க்கில் சேரவும்.",
+    "roleStudent": "மாணவர்",
+    "roleSecurity": "பாதுகாப்பு நிர்வாகி",
+    "dontHaveAccount": "உங்களுக்கு கணக்கு இல்லையா?",
+    "createOne": "ஒன்றை உருவாக்கவும்",
+    "alreadyHaveAccount": "ஏற்கனவே கணக்கு உள்ளதா?",
+    "signInInstead": "மாற்றாக உள்நுழையவும்",
+    "signUpBtn": "பதிவு செய்யவும்",
+    "unauthorizedAdmin": "அங்கீகரிக்கப்பட்ட பணியாளர்கள் மட்டுமே நிர்வாகியாக பதிவு செய்ய முடியும்."
   }
 }

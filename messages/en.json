@@ -107,10 +107,21 @@
   "AuthPage": {
     "title": "Welcome Back",
     "subtitle": "Sign in with your SRM credentials",
-    "emailPlaceholder": "Email Address (@srmist.edu.in)",
+    "emailPlaceholder": "name@srmist.edu.in",
     "passwordPlaceholder": "Password",
-    "authenticateBtn": "Authenticate",
-    "mockAdmin": "Mock Admin: admin@srmist.edu.in",
-    "mockStudent": "Mock Student: user@srmist.edu.in"
+    "authenticateBtn": "Sign In",
+    "invalidEmailDomain": "Please use a valid SRMIST email address.",
+    "invalidCredentials": "Invalid email or password.",
+    "userExists": "User already exists. Please sign in.",
+    "signUpTitle": "Create Account",
+    "signUpSubtitle": "Join Express Park with your SRMIST email.",
+    "roleStudent": "Student",
+    "roleSecurity": "Security Admin",
+    "dontHaveAccount": "Don't have an account?",
+    "createOne": "Create one",
+    "alreadyHaveAccount": "Already have an account?",
+    "signInInstead": "Sign in instead",
+    "signUpBtn": "Sign Up",
+    "unauthorizedAdmin": "Only authorized personnel can register as Admin."
   }
 }

@@ -107,10 +107,21 @@
   "AuthPage": {
     "title": "वापसी पर स्वागत है",
     "subtitle": "अपने SRM क्रेडेंशियल्स के साथ साइन इन करें",
-    "emailPlaceholder": "ईमेल पता (@srmist.edu.in)",
+    "emailPlaceholder": "name@srmist.edu.in",
     "passwordPlaceholder": "पासवर्ड",
-    "authenticateBtn": "प्रमाणित करें",
-    "mockAdmin": "मॉक एडमिन: admin@srmist.edu.in",
-    "mockStudent": "मॉक छात्र: user@srmist.edu.in"
+    "authenticateBtn": "साइन इन",
+    "invalidEmailDomain": "कृपया एक मान्य SRMIST ईमेल पते का उपयोग करें।",
+    "invalidCredentials": "अमान्य ईमेल या पासवर्ड।",
+    "userExists": "उपयोगकर्ता पहले से मौजूद है। कृपया साइन इन करें।",
+    "signUpTitle": "खाता बनाएं",
+    "signUpSubtitle": "अपने SRMIST ईमेल के साथ एक्सप्रेस पार्क से जुड़ें।",
+    "roleStudent": "छात्र",
+    "roleSecurity": "सुरक्षा व्यवस्थापक",
+    "dontHaveAccount": "क्या आपके पास खाता नहीं है?",
+    "createOne": "एक बनाएं",
+    "alreadyHaveAccount": "क्या आपके पास पहले से खाता है?",
+    "signInInstead": "इसके बजाय साइन इन करें",
+    "signUpBtn": "साइन अप",
+    "unauthorizedAdmin": "केवल अधिकृत कर्मचारी ही व्यवस्थापक के रूप में पंजीकरण कर सकते हैं।"
   }
 }

@@ -28,7 +28,8 @@ interface AuthContextType {
   role: Role;
   savedVehicles: Vehicle[];
   bookings: Booking[];
-  login: (email: string) => void;
+  login: (email: string, password: string) => boolean;
+  signup: (email: string, password: string, role: Role) => "success" | "user_exists" | "unauthorized_admin";
   logout: () => void;
   addVehicle: (vehicle: Omit<Vehicle, "id">) => void;
   removeVehicle: (id: string) => void;
@@ -45,7 +46,8 @@ const AuthContext = createContext<AuthContextType>({
   role: null,
   savedVehicles: [],
   bookings: [],
-  login: () => {},
+  login: () => false,
+  signup: () => "user_exists",
   logout: () => {},
   addVehicle: () => {},
   removeVehicle: () => {},
@@ -89,15 +91,45 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [isLoggedIn, email, name, role, savedVehicles, bookings]);
 
-  const login = (userEmail: string) => {
-    const userRole: Role = userEmail.includes("security") || userEmail.includes("admin") ? "security" : "student";
+  // Mock backend for users
+  const getUsers = () => {
+    const stored = localStorage.getItem("expresspark_users");
+    return stored ? JSON.parse(stored) : [];
+  };
+
+  const signup = (userEmail: string, password: string, userRole: Role) => {
+    // Restrict admin portal to specific email IDs
+    if (userRole === "security" && userEmail !== "admin@srmist.edu.in" && userEmail !== "security@srmist.edu.in") {
+      return "unauthorized_admin";
+    }
+
+    const users = getUsers();
+    if (users.find((u: any) => u.email === userEmail)) {
+      return "user_exists"; // User exists
+    }
+    users.push({ email: userEmail, password, role: userRole });
+    localStorage.setItem("expresspark_users", JSON.stringify(users));
+    
+    // Auto login after signup
+    login(userEmail, password);
+    return "success";
+  };
+
+  const login = (userEmail: string, password: string) => {
+    const users = getUsers();
+    const user = users.find((u: any) => u.email === userEmail && u.password === password);
+    
+    if (!user) {
+      return false;
+    }
+
     const userName = userEmail.split("@")[0].replace(/[0-9]/g, '');
     const capitalizedName = userName.charAt(0).toUpperCase() + userName.slice(1);
     
     setIsLoggedIn(true);
     setEmail(userEmail);
     setName(capitalizedName);
-    setRole(userRole);
+    setRole(user.role);
     
     // Seed some mock data if empty
     setSavedVehicles([
@@ -106,6 +138,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setBookings([
       { id: "b1", location: "Tech Park", duration: "4 Hours", date: new Date(Date.now() - 86400000).toISOString(), status: "completed", vehicle: "TN-11-AB-1234" }
     ]);
+    
+    return true;
   };
 
   const logout = () => {
@@ -170,7 +204,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   return (
     <AuthContext.Provider value={{ 
       isLoggedIn, email, name, role, savedVehicles, bookings, 
-      login, logout, addVehicle, removeVehicle, setDefaultVehicle, addBooking, cancelBooking, updateName 
+      login, signup, logout, addVehicle, removeVehicle, setDefaultVehicle, addBooking, cancelBooking, updateName 
     }}>
       {children}
     </AuthContext.Provider>
