@@ -6,13 +6,14 @@ import { Settings, Globe, Moon, Bell, User, Car, Plus, CheckCircle2, History, Lo
 import { useAuth } from "@/components/auth/AuthProvider";
 import { Button } from "@/components/ui/button";
 import { useRouter, usePathname } from "@/i18n/routing";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function SettingsPage() {
-  const { isLoggedIn, name, email, savedVehicles, bookings, addVehicle, removeVehicle, setDefaultVehicle, updateName, logout } = useAuth();
+  const { isLoggedIn, name, email, savedVehicles, bookings, addVehicle, removeVehicle, setDefaultVehicle, updateName, logout, cancelBooking } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
   const locale = useLocale();
+  const t = useTranslations("SettingsPage");
   
   const [showAddVehicle, setShowAddVehicle] = useState(false);
   const [newVehType, setNewVehType] = useState<"Car" | "Bike">("Car");
@@ -42,7 +43,7 @@ export default function SettingsPage() {
   };
 
   const activeBooking = bookings.find(b => b.status === "active");
-  const pastBookings = bookings.filter(b => b.status === "completed");
+  const pastBookings = bookings.filter(b => b.status === "completed" || b.status === "cancelled");
 
   return (
     <main className="min-h-screen pt-24 pb-40 px-6 sm:px-12 max-w-4xl mx-auto">
@@ -52,17 +53,17 @@ export default function SettingsPage() {
         className="mb-12 flex justify-between items-end"
       >
         <div>
-          <h1 className="text-4xl font-light tracking-tight mb-2">Profile & Settings</h1>
-          <p className="text-muted-foreground text-lg font-light">Manage your ExpressPark account</p>
+          <h1 className="text-4xl font-light tracking-tight mb-2">{t("title")}</h1>
+          <p className="text-muted-foreground text-lg font-light">{t("subtitle")}</p>
         </div>
         
         {isLoggedIn ? (
           <Button onClick={logout} variant="outline" className="rounded-full border-white/10 hover:bg-white/5 text-muted-foreground">
-            <LogOut className="w-4 h-4 mr-2" /> Sign Out
+            <LogOut className="w-4 h-4 mr-2" /> {t("signOut")}
           </Button>
         ) : (
           <Button onClick={() => router.push("/auth")} className="rounded-full bg-white text-black">
-            Sign In
+            {t("signIn")}
           </Button>
         )}
       </motion.div>
@@ -91,7 +92,7 @@ export default function SettingsPage() {
                     onKeyDown={e => e.key === 'Enter' && handleSaveName()}
                     className="bg-white/5 border border-white/10 rounded-lg px-2 py-1 text-center text-xl font-medium w-32 outline-none"
                   />
-                  <Button size="sm" onClick={handleSaveName} className="h-8 px-3 rounded-lg bg-white text-black">Save</Button>
+                  <Button size="sm" onClick={handleSaveName} className="h-8 px-3 rounded-lg bg-white text-black">{t("save")}</Button>
                 </div>
               ) : (
                 <h2 className="text-2xl font-medium flex items-center justify-center gap-2">
@@ -107,30 +108,30 @@ export default function SettingsPage() {
           )}
 
           <div className="space-y-4">
-            <h3 className="text-sm font-medium text-muted-foreground ml-4 uppercase tracking-wider">Preferences</h3>
+            <h3 className="text-sm font-medium text-muted-foreground ml-4 uppercase tracking-wider">{t("preferences")}</h3>
             
             <div onClick={handleCycleLanguage} className="glass-panel p-5 rounded-3xl flex items-center justify-between cursor-pointer hover:bg-white/5 transition-colors">
               <div className="flex items-center gap-4">
                 <Globe className="w-5 h-5 text-primary" />
-                <span className="font-medium">Language</span>
+                <span className="font-medium">{t("language")}</span>
               </div>
               <span className="text-xs text-muted-foreground bg-white/10 px-2 py-1 rounded-full uppercase">{locale}</span>
             </div>
 
-            <div onClick={() => alert("Light theme is currently disabled to maintain the spatial aesthetic.")} className="glass-panel p-5 rounded-3xl flex items-center justify-between cursor-pointer hover:bg-white/5 transition-colors">
+            <div onClick={() => alert(t("themeDisabled"))} className="glass-panel p-5 rounded-3xl flex items-center justify-between cursor-pointer hover:bg-white/5 transition-colors">
               <div className="flex items-center gap-4">
                 <Moon className="w-5 h-5 text-primary" />
-                <span className="font-medium">Theme</span>
+                <span className="font-medium">{t("theme")}</span>
               </div>
-              <span className="text-xs text-muted-foreground bg-white/10 px-2 py-1 rounded-full">Dark</span>
+              <span className="text-xs text-muted-foreground bg-white/10 px-2 py-1 rounded-full">{t("themeDark")}</span>
             </div>
 
             <div className="glass-panel p-5 rounded-3xl flex items-center justify-between cursor-pointer hover:bg-white/5 transition-colors">
               <div className="flex items-center gap-4">
                 <Bell className="w-5 h-5 text-primary" />
-                <span className="font-medium">Alerts</span>
+                <span className="font-medium">{t("alerts")}</span>
               </div>
-              <span className="text-xs text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded-full">On</span>
+              <span className="text-xs text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded-full">{t("alertsOn")}</span>
             </div>
           </div>
         </motion.div>
@@ -149,7 +150,7 @@ export default function SettingsPage() {
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-xl font-medium flex items-center gap-2">
                     <Car className="w-5 h-5 text-primary" />
-                    My Garage
+                    {t("myGarage")}
                   </h2>
                   <Button 
                     variant="outline" 
@@ -157,7 +158,7 @@ export default function SettingsPage() {
                     onClick={() => setShowAddVehicle(!showAddVehicle)}
                     className="rounded-full border-white/10 h-8 text-xs"
                   >
-                    <Plus className="w-3 h-3 mr-1" /> Add
+                    <Plus className="w-3 h-3 mr-1" /> {t("add")}
                   </Button>
                 </div>
 
@@ -175,19 +176,19 @@ export default function SettingsPage() {
                           onChange={e => setNewVehType(e.target.value as any)}
                           className="bg-transparent border-none outline-none text-sm w-24 appearance-none"
                         >
-                          <option className="bg-neutral-900">Car</option>
-                          <option className="bg-neutral-900">Bike</option>
+                          <option className="bg-neutral-900">{t("car")}</option>
+                          <option className="bg-neutral-900">{t("bike")}</option>
                         </select>
                         <div className="w-px h-6 bg-white/10" />
                         <input 
                           type="text" 
-                          placeholder="Reg Number" 
+                          placeholder={t("regNumber")} 
                           value={newVehReg}
                           onChange={e => setNewVehReg(e.target.value.toUpperCase())}
                           className="bg-transparent border-none outline-none text-sm flex-1 uppercase"
                         />
                         <Button size="sm" onClick={handleAddVehicle} className="rounded-full bg-white text-black h-8 px-4 text-xs">
-                          Save
+                          {t("save")}
                         </Button>
                       </div>
                     </motion.div>
@@ -196,18 +197,18 @@ export default function SettingsPage() {
 
                 <div className="space-y-3">
                   {savedVehicles.length === 0 && (
-                    <p className="text-sm text-muted-foreground italic">No vehicles saved yet.</p>
+                    <p className="text-sm text-muted-foreground italic">{t("noVehicles")}</p>
                   )}
                   {savedVehicles.map(veh => (
                     <div key={veh.id} className={`p-4 rounded-2xl flex justify-between items-center transition-colors border ${veh.isDefault ? "bg-white/10 border-white/30" : "bg-white/5 border-white/5 hover:bg-white/10"}`}>
                       <div className="flex-1 cursor-pointer" onClick={() => setDefaultVehicle(veh.id)}>
                         <p className="font-medium uppercase">{veh.regNumber}</p>
-                        <p className="text-xs text-muted-foreground">{veh.type}</p>
+                        <p className="text-xs text-muted-foreground">{veh.type === "Car" ? t("car") : t("bike")}</p>
                       </div>
                       <div className="flex items-center gap-3">
                         {veh.isDefault && (
                           <div className="flex items-center gap-1 text-xs text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-full">
-                            <CheckCircle2 className="w-3 h-3" /> Default
+                            <CheckCircle2 className="w-3 h-3" /> {t("default")}
                           </div>
                         )}
                         <button onClick={() => removeVehicle(veh.id)} className="p-2 text-muted-foreground hover:text-red-400 transition-colors">
@@ -223,26 +224,36 @@ export default function SettingsPage() {
               <div className="glass-panel p-8 rounded-3xl">
                 <h2 className="text-xl font-medium flex items-center gap-2 mb-6">
                   <History className="w-5 h-5 text-primary" />
-                  Booking History
+                  {t("bookingHistory")}
                 </h2>
 
                 {activeBooking && (
                   <div className="mb-6 p-5 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex justify-between items-center cursor-pointer hover:bg-emerald-500/20 transition-colors" onClick={() => router.push("/vehicle")}>
                     <div>
-                      <div className="text-xs text-emerald-400 font-medium mb-1 uppercase tracking-wider">Active Now</div>
+                      <div className="text-xs text-emerald-400 font-medium mb-1 uppercase tracking-wider">{t("activeNow")}</div>
                       <p className="font-medium text-lg">{activeBooking.location}</p>
                       <p className="text-sm text-muted-foreground">{activeBooking.vehicle} • {activeBooking.duration}</p>
                     </div>
-                    <div className="w-10 h-10 bg-emerald-500/20 rounded-full flex items-center justify-center text-emerald-400">
-                      →
+                    <div className="flex items-center gap-4">
+                      <Button 
+                        onClick={(e) => { e.stopPropagation(); cancelBooking(activeBooking.id); }} 
+                        size="sm" 
+                        variant="outline" 
+                        className="rounded-full border-red-500/20 text-red-400 hover:bg-red-500/10 hover:text-red-400"
+                      >
+                        {t("cancelBooking")}
+                      </Button>
+                      <div className="w-10 h-10 bg-emerald-500/20 rounded-full flex items-center justify-center text-emerald-400">
+                        →
+                      </div>
                     </div>
                   </div>
                 )}
 
                 <div className="space-y-3">
-                  <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">Past Bookings</h3>
+                  <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">{t("pastBookings")}</h3>
                   {pastBookings.length === 0 && (
-                    <p className="text-sm text-muted-foreground italic">No past bookings found.</p>
+                    <p className="text-sm text-muted-foreground italic">{t("noPastBookings")}</p>
                   )}
                   {pastBookings.map(b => (
                     <div key={b.id} className="p-4 bg-white/5 border border-white/5 rounded-2xl flex justify-between items-center opacity-70">
@@ -250,8 +261,8 @@ export default function SettingsPage() {
                         <p className="font-medium">{b.location}</p>
                         <p className="text-xs text-muted-foreground">{b.vehicle} • {new Date(b.date).toLocaleDateString()}</p>
                       </div>
-                      <span className="text-xs text-muted-foreground px-2 py-1 bg-white/10 rounded-full">
-                        Completed
+                      <span className={`text-xs px-2 py-1 rounded-full font-medium ${b.status === "completed" ? "bg-white/10 text-muted-foreground" : "bg-red-500/10 text-red-400"}`}>
+                        {b.status === "completed" ? t("completed") : t("cancelled")}
                       </span>
                     </div>
                   ))}
@@ -261,10 +272,10 @@ export default function SettingsPage() {
           ) : (
             <div className="glass-panel p-12 rounded-3xl text-center flex flex-col items-center justify-center h-full">
               <User className="w-12 h-12 text-muted-foreground mb-4" />
-              <h3 className="text-xl font-medium mb-2">Sign in required</h3>
-              <p className="text-muted-foreground text-sm mb-6">Sign in to manage your digital garage and view your parking history.</p>
+              <h3 className="text-xl font-medium mb-2">{t("signInRequired")}</h3>
+              <p className="text-muted-foreground text-sm mb-6">{t("signInToManage")}</p>
               <Button onClick={() => router.push("/auth")} className="rounded-full bg-white text-black px-8">
-                Sign In
+                {t("signIn")}
               </Button>
             </div>
           )}

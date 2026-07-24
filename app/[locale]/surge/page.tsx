@@ -4,10 +4,12 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { UploadCloud, Zap, Clock, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 
 type SurgeLevel = "low" | "medium" | "high";
 
 export default function SurgePage() {
+  const t = useTranslations("SurgePage");
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<"idle" | "uploading" | "processing" | "results">("idle");
   const [results, setResults] = useState<{
@@ -71,9 +73,9 @@ export default function SurgePage() {
         <div className="inline-flex items-center justify-center p-3 mb-6 bg-white/5 rounded-2xl">
           <Zap className="w-6 h-6 text-amber-400" />
         </div>
-        <h1 className="text-4xl font-light tracking-tight mb-3">Surge Predictor</h1>
+        <h1 className="text-4xl font-light tracking-tight mb-3">{t("title")}</h1>
         <p className="text-muted-foreground text-lg font-light max-w-lg mx-auto">
-          Upload your timetable to receive personalized parking predictions and avoid campus traffic.
+          {t("description")}
         </p>
       </motion.div>
 
@@ -93,9 +95,9 @@ export default function SurgePage() {
               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
             />
             <UploadCloud className="w-12 h-12 text-muted-foreground mb-6" />
-            <h3 className="text-xl font-medium mb-2">Upload Timetable</h3>
+            <h3 className="text-xl font-medium mb-2">{t("uploadTimetable")}</h3>
             <p className="text-sm text-muted-foreground text-center mb-8">
-              Drag & drop or click to browse. Supports PDF, PNG, JPG.
+              {t("uploadHelp")}
             </p>
             
             {file && (
@@ -105,7 +107,7 @@ export default function SurgePage() {
                   onClick={(e) => { e.stopPropagation(); handleProcessTimetable(); }}
                   className="rounded-full h-8 px-4 bg-white text-black hover:bg-white/90"
                 >
-                  Analyze
+                  {t("analyze")}
                 </Button>
               </div>
             )}
@@ -122,10 +124,10 @@ export default function SurgePage() {
           >
             <div className="w-16 h-16 rounded-full border-4 border-white/10 border-t-emerald-400 animate-spin mb-6" />
             <h3 className="text-xl font-medium mb-2">
-              {status === "uploading" ? "Uploading..." : "Running OCR Analysis..."}
+              {status === "uploading" ? t("uploading") : t("runningOCR")}
             </h3>
             <p className="text-sm text-muted-foreground text-center">
-              Extracting class hours and cross-referencing with live campus traffic.
+              {t("extractingInfo")}
             </p>
           </motion.div>
         )}
@@ -141,12 +143,12 @@ export default function SurgePage() {
               <div>
                 <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
                   <Clock className="w-5 h-5 text-primary" />
-                  Detected Classes
+                  {t("detectedClasses")}
                 </h3>
                 <div className="space-y-3">
                   {results.classHours.map((hr, idx) => (
                     <div key={idx} className="p-4 bg-white/5 rounded-2xl flex justify-between items-center">
-                      <span className="text-sm text-muted-foreground">Session {idx + 1}</span>
+                      <span className="text-sm text-muted-foreground">{t("session")} {idx + 1}</span>
                       <span className="font-medium">{hr.start} — {hr.end}</span>
                     </div>
                   ))}
@@ -164,10 +166,10 @@ export default function SurgePage() {
                   {results.surgeLevel === "high" && <AlertTriangle className="w-4 h-4" />}
                   {results.surgeLevel === "medium" && <AlertTriangle className="w-4 h-4" />}
                   {results.surgeLevel === "low" && <CheckCircle2 className="w-4 h-4" />}
-                  {results.surgeLevel.toUpperCase()} SURGE
+                  {results.surgeLevel === "high" ? t("surgeHigh") : results.surgeLevel === "medium" ? t("surgeMedium") : t("surgeLow")}
                 </div>
                 
-                <h2 className="text-3xl font-light mb-4">Traffic Prediction</h2>
+                <h2 className="text-3xl font-light mb-4">{t("trafficPrediction")}</h2>
                 <p className="text-muted-foreground leading-relaxed text-lg font-light">
                   {results.suggestion}
                 </p>
@@ -179,7 +181,7 @@ export default function SurgePage() {
                   variant="outline" 
                   className="w-full rounded-full h-12 border-white/10 hover:bg-white/5"
                 >
-                  Analyze Another
+                  {t("analyzeAnother")}
                 </Button>
               </div>
             </div>

@@ -17,7 +17,7 @@ export type Booking = {
   location: string;
   duration: string;
   date: string;
-  status: "active" | "completed";
+  status: "active" | "completed" | "cancelled";
   vehicle: string;
 };
 
@@ -34,6 +34,7 @@ interface AuthContextType {
   removeVehicle: (id: string) => void;
   setDefaultVehicle: (id: string) => void;
   addBooking: (booking: Omit<Booking, "id" | "date" | "status">) => void;
+  cancelBooking: (id: string) => void;
   updateName: (newName: string) => void;
 }
 
@@ -50,6 +51,7 @@ const AuthContext = createContext<AuthContextType>({
   removeVehicle: () => {},
   setDefaultVehicle: () => {},
   addBooking: () => {},
+  cancelBooking: () => {},
   updateName: () => {},
 });
 
@@ -161,10 +163,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
+  const cancelBooking = (id: string) => {
+    setBookings(prev => prev.map(b => b.id === id ? { ...b, status: "cancelled" as const } : b));
+  };
+
   return (
     <AuthContext.Provider value={{ 
       isLoggedIn, email, name, role, savedVehicles, bookings, 
-      login, logout, addVehicle, removeVehicle, setDefaultVehicle, addBooking, updateName 
+      login, logout, addVehicle, removeVehicle, setDefaultVehicle, addBooking, cancelBooking, updateName 
     }}>
       {children}
     </AuthContext.Provider>

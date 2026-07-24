@@ -10,7 +10,7 @@ import { useAuth } from "@/components/auth/AuthProvider";
 
 export function FloatingDock() {
   const pathname = usePathname();
-  const t = useTranslations("HomePage"); // Using a generic translation for now, will refine
+  const t = useTranslations("Navigation");
   const [scrolled, setScrolled] = useState(false);
   const { role } = useAuth();
 
@@ -28,13 +28,13 @@ export function FloatingDock() {
   }, []);
 
   const navItems = [
-    { icon: Map, label: "Map", href: "/" },
-    { icon: Navigation, label: "Routing", href: "/routing" },
-    { icon: Car, label: "Vehicle", href: "/vehicle" },
-    { icon: Zap, label: "Surge", href: "/surge" },
+    { icon: Map, label: t("map"), href: "/" },
+    { icon: Navigation, label: t("routing"), href: "/routing" },
+    { icon: Car, label: t("vehicle"), href: "/vehicle" },
+    { icon: Zap, label: t("surge"), href: "/surge" },
     // Only show Workspace if the user is a security admin
-    ...(role === "security" ? [{ icon: LayoutDashboard, label: "Workspace", href: "/workspace" }] : []),
-    { icon: Settings, label: "Settings", href: "/settings" },
+    ...(role === "security" ? [{ icon: LayoutDashboard, label: t("workspace"), href: "/workspace" }] : []),
+    { icon: Settings, label: t("settings"), href: "/settings" },
   ];
 
   return (

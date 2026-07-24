@@ -7,10 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Car, Bike, Navigation, MapPin, Clock } from "lucide-react";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { useRouter } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 
 export default function VehiclePage() {
   const { isLoggedIn, savedVehicles, addBooking } = useAuth();
   const router = useRouter();
+  const t = useTranslations("VehiclePage");
 
   // Multi-step form state
   const [step, setStep] = useState<1 | 2 | 3>(1);
@@ -43,15 +45,15 @@ export default function VehiclePage() {
           <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
             <Car className="w-8 h-8 text-primary" />
           </div>
-          <h2 className="text-2xl font-light mb-4">Authentication Required</h2>
+          <h2 className="text-2xl font-light mb-4">{t("authRequired")}</h2>
           <p className="text-muted-foreground mb-8">
-            You must be signed in with your SRMIST email to book a parking slot and generate a gate pass.
+            {t("authPrompt")}
           </p>
           <Button 
             onClick={() => router.push("/auth")}
             className="w-full rounded-full h-12 bg-white text-black hover:bg-white/90"
           >
-            Sign In
+            {t("signIn")}
           </Button>
         </motion.div>
       </main>
@@ -80,11 +82,11 @@ export default function VehiclePage() {
         animate={{ opacity: 1, y: 0 }}
         className="w-full text-center mb-12"
       >
-        <h1 className="text-4xl font-light tracking-tight mb-3">Vehicle Booking</h1>
+        <h1 className="text-4xl font-light tracking-tight mb-3">{t("title")}</h1>
         <p className="text-muted-foreground text-lg font-light">
-          {step === 1 && "Step 1: Enter your vehicle details"}
-          {step === 2 && "Step 2: Select parking zone & duration"}
-          {step === 3 && "Your Digital Gate Pass"}
+          {step === 1 && t("step1")}
+          {step === 2 && t("step2")}
+          {step === 3 && t("step3")}
         </p>
       </motion.div>
 
@@ -101,7 +103,7 @@ export default function VehiclePage() {
               className="glass-panel p-8 rounded-[2rem] space-y-6"
             >
               <div className="space-y-4">
-                <label className="text-sm font-medium text-muted-foreground">Select Vehicle Type</label>
+                <label className="text-sm font-medium text-muted-foreground">{t("selectVehicleType")}</label>
                 <div className="grid grid-cols-3 gap-4">
                   {["Car", "Bike", "Cycle"].map((type) => (
                     <button
@@ -114,17 +116,17 @@ export default function VehiclePage() {
                       }`}
                     >
                       {type === "Car" ? <Car className="w-6 h-6" /> : <Bike className="w-6 h-6" />}
-                      <span className="text-sm font-medium">{type}</span>
+                      <span className="text-sm font-medium">{type === "Car" ? t("car") : type === "Bike" ? t("bike") : t("cycle")}</span>
                     </button>
                   ))}
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-muted-foreground">Registration Number</label>
+                <label className="text-sm font-medium text-muted-foreground">{t("regNumberLabel")}</label>
                 <input
                   type="text"
-                  placeholder="e.g. TN-11-AB-1234"
+                  placeholder={t("regNumberPlaceholder")}
                   value={regNumber}
                   onChange={(e) => setRegNumber(e.target.value.toUpperCase())}
                   className="w-full bg-white/5 border border-white/10 rounded-xl h-14 px-4 outline-none focus:border-white/30 transition-colors uppercase"
@@ -136,7 +138,7 @@ export default function VehiclePage() {
                 onClick={() => setStep(2)}
                 className="w-full rounded-full h-12 bg-white text-black hover:bg-white/90 disabled:opacity-50"
               >
-                Continue
+                {t("continueBtn")}
               </Button>
             </motion.div>
           )}
@@ -151,7 +153,7 @@ export default function VehiclePage() {
               className="glass-panel p-8 rounded-[2rem] space-y-6"
             >
               <div className="space-y-4">
-                <label className="text-sm font-medium text-muted-foreground">Academic Block / Zone</label>
+                <label className="text-sm font-medium text-muted-foreground">{t("zoneLabel")}</label>
                 <div className="space-y-2">
                   {["Tech Park", "University Building", "Main Campus"].map((loc) => (
                     <button
@@ -171,15 +173,15 @@ export default function VehiclePage() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-muted-foreground">Duration</label>
+                <label className="text-sm font-medium text-muted-foreground">{t("durationLabel")}</label>
                 <select
                   value={duration}
                   onChange={(e) => setDuration(e.target.value)}
                   className="w-full bg-white/5 border border-white/10 rounded-xl h-14 px-4 outline-none focus:border-white/30 transition-colors appearance-none"
                 >
-                  <option className="bg-neutral-900">2 Hours</option>
-                  <option className="bg-neutral-900">4 Hours</option>
-                  <option className="bg-neutral-900">Full Day (8 Hours)</option>
+                  <option className="bg-neutral-900" value="2 Hours">{t("twoHours")}</option>
+                  <option className="bg-neutral-900" value="4 Hours">{t("fourHours")}</option>
+                  <option className="bg-neutral-900" value="Full Day (8 Hours)">{t("fullDay")}</option>
                 </select>
               </div>
 
@@ -189,14 +191,14 @@ export default function VehiclePage() {
                   onClick={() => setStep(1)}
                   className="w-1/3 rounded-full h-12 border-white/10 hover:bg-white/5"
                 >
-                  Back
+                  {t("backBtn")}
                 </Button>
                 <Button 
                   disabled={!zone}
                   onClick={handleGenerateTicket}
                   className="w-2/3 rounded-full h-12 bg-white text-black hover:bg-white/90 disabled:opacity-50"
                 >
-                  Confirm & Generate QR
+                  {t("confirmBtn")}
                 </Button>
               </div>
             </motion.div>
@@ -211,7 +213,7 @@ export default function VehiclePage() {
               className="glass-panel p-8 rounded-[2rem] flex flex-col items-center border border-emerald-500/20"
             >
               <div className="inline-flex items-center justify-center px-4 py-1.5 mb-6 text-sm font-medium rounded-full bg-emerald-500/10 text-emerald-400">
-                Gate Pass Active
+                {t("gatePassActive")}
               </div>
 
               <div className="bg-white p-6 rounded-3xl mb-8 shadow-2xl">
@@ -228,20 +230,20 @@ export default function VehiclePage() {
                   <div className="flex items-center gap-3">
                     <Car className="w-5 h-5 text-muted-foreground" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Vehicle</p>
+                      <p className="text-sm text-muted-foreground">{t("vehicleLabel")}</p>
                       <p className="font-medium uppercase">{regNumber}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm text-muted-foreground">Type</p>
-                    <p className="font-medium text-emerald-400">{vehicleType}</p>
+                    <p className="text-sm text-muted-foreground">{t("typeLabel")}</p>
+                    <p className="font-medium text-emerald-400">{vehicleType === "Car" ? t("car") : vehicleType === "Bike" ? t("bike") : t("cycle")}</p>
                   </div>
                 </div>
                 
                 <div className="flex items-center gap-4 p-4 bg-white/5 rounded-2xl">
                   <MapPin className="w-5 h-5 text-muted-foreground" />
                   <div>
-                    <p className="text-sm text-muted-foreground">Location</p>
+                    <p className="text-sm text-muted-foreground">{t("locationLabel")}</p>
                     <p className="text-sm">{zone} Zone</p>
                   </div>
                 </div>
@@ -249,8 +251,8 @@ export default function VehiclePage() {
                 <div className="flex items-center gap-4 p-4 bg-white/5 rounded-2xl">
                   <Clock className="w-5 h-5 text-muted-foreground" />
                   <div>
-                    <p className="text-sm text-muted-foreground">Duration</p>
-                    <p className="text-sm">{duration} permitted</p>
+                    <p className="text-sm text-muted-foreground">{t("durationLabel")}</p>
+                    <p className="text-sm">{duration === "2 Hours" ? t("twoHours") : duration === "4 Hours" ? t("fourHours") : t("fullDay")} {t("durationPermitted")}</p>
                   </div>
                 </div>
               </div>
@@ -259,7 +261,7 @@ export default function VehiclePage() {
                 onClick={() => setStep(1)}
                 className="w-full rounded-full h-12 bg-white/10 text-white hover:bg-white/20 border border-white/5"
               >
-                Book Another Vehicle
+                {t("bookAnother")}
               </Button>
             </motion.div>
           )}

@@ -3,11 +3,11 @@
 import { motion } from "framer-motion";
 import { AlertCircle, Car, Search, ShieldCheck } from "lucide-react";
 import { useAuth } from "@/components/auth/AuthProvider";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "@/i18n/routing";
 
 export default function WorkspacePage() {
-  const { role, isLoggedIn, name, email, bookings } = useAuth();
+  const { role, isLoggedIn, name, email, bookings, cancelBooking } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -24,6 +24,13 @@ export default function WorkspacePage() {
     { id: 4, vehicle: "TN-44-GH-3456", type: "Cycle", time: "09:25 AM", status: "entered", isMessy: false },
   ];
 
+  const [mockBookings, setMockBookings] = useState([
+    { id: 101, name: "Arjun Kumar", email: "arjun@srmist.edu.in", vehicle: "TN-11-AB-1234", type: "Car", zone: "Tech Park", time: "4 Hours", status: "active" },
+    { id: 102, name: "Priya Singh", email: "priya@srmist.edu.in", vehicle: "TN-22-CD-5678", type: "Bike", zone: "UB", time: "2 Hours", status: "active" },
+    { id: 103, name: "Rahul Verma", email: "rahul@srmist.edu.in", vehicle: "TN-33-EF-9012", type: "Car", zone: "Main Campus", time: "8 Hours", status: "completed" },
+    { id: 104, name: "Neha Reddy", email: "neha@srmist.edu.in", vehicle: "TN-44-GH-3456", type: "Cycle", zone: "Tech Park", time: "4 Hours", status: "active" },
+  ]);
+
   // Mock global bookings for the Admin View + Current user's bookings
   const globalBookings = [
     ...bookings.map(b => ({
@@ -36,11 +43,16 @@ export default function WorkspacePage() {
       time: b.duration,
       status: b.status
     })),
-    { id: 101, name: "Arjun Kumar", email: "arjun@srmist.edu.in", vehicle: "TN-11-AB-1234", type: "Car", zone: "Tech Park", time: "4 Hours", status: "active" },
-    { id: 102, name: "Priya Singh", email: "priya@srmist.edu.in", vehicle: "TN-22-CD-5678", type: "Bike", zone: "UB", time: "2 Hours", status: "active" },
-    { id: 103, name: "Rahul Verma", email: "rahul@srmist.edu.in", vehicle: "TN-33-EF-9012", type: "Car", zone: "Main Campus", time: "8 Hours", status: "completed" },
-    { id: 104, name: "Neha Reddy", email: "neha@srmist.edu.in", vehicle: "TN-44-GH-3456", type: "Cycle", zone: "Tech Park", time: "4 Hours", status: "active" },
+    ...mockBookings
   ];
+
+  const handleCancelBooking = (id: string | number) => {
+    if (typeof id === "string") {
+      cancelBooking(id);
+    } else {
+      setMockBookings(prev => prev.map(b => b.id === id ? { ...b, status: "cancelled" } : b));
+    }
+  };
 
   if (!isLoggedIn || role !== "security") {
     return (
@@ -188,13 +200,22 @@ export default function WorkspacePage() {
                     <span className="text-sm text-muted-foreground">{booking.zone}</span>
                     <span className="text-sm">
                       {booking.status === "active" ? (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-medium">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                          Active
-                        </span>
-                      ) : (
+                        <div className="flex items-center gap-3">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-medium">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                            Active
+                          </span>
+                          <button onClick={() => handleCancelBooking(booking.id)} className="text-xs text-red-400 hover:text-red-300">
+                            Cancel
+                          </button>
+                        </div>
+                      ) : booking.status === "completed" ? (
                         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 text-muted-foreground text-xs font-medium">
                           Completed
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-500/10 text-red-400 text-xs font-medium">
+                          Cancelled
                         </span>
                       )}
                     </span>

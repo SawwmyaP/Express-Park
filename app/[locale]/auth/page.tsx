@@ -6,12 +6,14 @@ import { useRouter } from "@/i18n/routing";
 import { Shield, KeyRound, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/components/auth/AuthProvider";
+import { useTranslations } from "next-intl";
 
 export default function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useAuth();
   const router = useRouter();
+  const t = useTranslations("AuthPage");
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,8 +43,8 @@ export default function AuthPage() {
         </div>
         
         <div className="text-center mb-10">
-          <h1 className="text-3xl font-light tracking-tight mb-2">Welcome Back</h1>
-          <p className="text-muted-foreground text-sm font-light">Sign in with your SRM credentials</p>
+          <h1 className="text-3xl font-light tracking-tight mb-2">{t("title")}</h1>
+          <p className="text-muted-foreground text-sm font-light">{t("subtitle")}</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-6">
@@ -51,7 +53,7 @@ export default function AuthPage() {
               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
               <input
                 type="email"
-                placeholder="Email Address (@srmist.edu.in)"
+                placeholder={t("emailPlaceholder")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -63,7 +65,7 @@ export default function AuthPage() {
               <KeyRound className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
               <input
                 type="password"
-                placeholder="Password"
+                placeholder={t("passwordPlaceholder")}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -73,13 +75,13 @@ export default function AuthPage() {
           </div>
 
           <Button type="submit" className="w-full rounded-full h-14 text-lg bg-white text-black hover:bg-white/90 shadow-[0_0_30px_rgba(255,255,255,0.1)]">
-            Authenticate
+            {t("authenticateBtn")}
           </Button>
         </form>
 
         <div className="mt-8 text-center text-xs text-muted-foreground">
-          <p>Mock Admin: admin@srmist.edu.in</p>
-          <p>Mock Student: user@srmist.edu.in</p>
+          <p>{t("mockAdmin")}</p>
+          <p>{t("mockStudent")}</p>
         </div>
       </motion.div>
     </main>

@@ -59,7 +59,7 @@ export default function HomePage() {
               size="lg" 
               className="rounded-full px-8 h-14 text-lg bg-white text-black hover:bg-white/90 hover:scale-105 transition-all shadow-[0_0_40px_rgba(255,255,255,0.1)]"
             >
-              Reserve Slot
+              {t("buttons.reserve")}
             </Button>
             <Button 
               onClick={() => router.push("/surge")}
@@ -67,7 +67,7 @@ export default function HomePage() {
               variant="outline" 
               className="rounded-full px-8 h-14 text-lg border-white/10 hover:bg-white/5 bg-transparent hover:scale-105 transition-all"
             >
-              View Traffic
+              {t("buttons.traffic")}
             </Button>
           </div>
         </motion.div>
